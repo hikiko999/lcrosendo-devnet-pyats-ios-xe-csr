@@ -1,0 +1,30 @@
+testbed:
+  name: IOS_testbed
+  credentials:
+    default:
+      username: developer
+      password: lastorangerestoreball8876
+    enable:
+      password: lastorangerestoreball8876
+
+devices:
+  csr1000v-1:
+    os: iosxe
+    # type: iosxe
+    connections:
+      a:
+        protocol: ssh
+        host: sandbox-iosxe-recomm-1.cisco.com
+        port: 22
+      # credentials:
+      #   default:
+      #     username: developer
+      #     password: lastorangerestoreball8876
+
+# topology:
+#   csr1000v-1:
+#     interfaces:
+#       Loopback77:
+#         type: 'loopback'
+#       Loopback79:
+#         type: 'loopback'
