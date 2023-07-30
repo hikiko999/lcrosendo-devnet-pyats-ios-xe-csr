@@ -1,0 +1,13 @@
+stages:
+  - Test
+
+Test:
+  stage: Test
+  image: hikiko999/pyats_python:python-3.10.12
+  tags:
+    - cisco-pyats
+  script:
+    - pyats run job job-runner.py --testbed-file ios_testbed.yml --html-logs
+  artifacts:
+    paths:
+      - ~/.pyats/*
