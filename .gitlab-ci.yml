@@ -7,9 +7,9 @@ Test:
   tags:
     - cisco-pyats
   variables:
-    DEST_IP: 5.10.15.20,10.20.30.40
+    DEST_IP_VAR: 5.10.15.20,10.20.30.40
   script:
-    - export DEST_IP = $DEST_IP
+    - export DEST_IP=$DEST_IP_VAR
     - pyats run job job-runner.py --testbed-file ios_testbed.yml --html-logs
     - cp ~/.pyats . -r
   artifacts:
