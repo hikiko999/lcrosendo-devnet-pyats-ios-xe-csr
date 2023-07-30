@@ -8,7 +8,7 @@ Test:
     - cisco-pyats
   script:
     - pyats run job job-runner.py --testbed-file ios_testbed.yml --html-logs
-    - cp ~/.pyats .
+    - cp ~/.pyats . -r
   artifacts:
     paths:
       - ./.pyats
