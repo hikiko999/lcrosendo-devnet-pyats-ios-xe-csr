@@ -4,6 +4,9 @@ from pyats import aetest
 
 logger = logging.getLogger(__name__)
 
+# def parse_known_args():
+#     return self.parameters.destinations
+
 class CommonSetup(aetest.CommonSetup):
 
     @aetest.subsection
@@ -18,15 +21,26 @@ class CommonSetup(aetest.CommonSetup):
     def connect(self, steps, ios1):
         with steps.start(f'Connecting to {ios1}'):
             ios1.connect()
-
+    
+    @aetest.subsection
+    def setup(self):
+        logger.info(f"{self.parameters}")
+    # @aetest.subsection
+    # def mark_ping_loop(self,destinations):
+    #     aetest.loop.mark(PingTestcase.ping_intf, destination = destinations)
+    
 # @aetest.loop(device=())
 class PingTestcase(aetest.Testcase):
 
     device = 'ios1'
-    destination='20.30.40.50'
 
+    @aetest.setup
+    def setup(self):
+        aetest.loop.mark(self.ping_intf, destination = self.parameters['destinations'])
+    
     @aetest.test
-    def ping_intf(self, device=device, destination=destination):
+    def ping_intf(self, destination, device=device):
+        logger.info(f"{destination}")
         try:
             result = self.parameters[device].ping(destination)
         except Exception as e:
@@ -51,8 +65,13 @@ if __name__ == '__main__':
     from pyats.topology import loader
 
     parser = argparse.ArgumentParser(description = "AETEST -- Ping Test")
-    parser.add_argument('--testbed', dest = 'testbed', type = loader.load)
+    parser.add_argument('--testbed', dest = 'testbed')
+    parser.add_argument('--dest', dest = 'destinations')
 
     args, unknown = parser.parse_known_args()
 
-    aetest.main(**vars(args))
+    testbed = loader.load(args.testbed)
+    destinations = args.destinations.split(',')
+
+    
+    aetest.main(testbed = testbed, destinations = destinations)
