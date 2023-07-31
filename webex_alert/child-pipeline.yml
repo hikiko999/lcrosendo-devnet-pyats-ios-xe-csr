@@ -4,6 +4,8 @@ stages:
 Alert:
   stage: Alert
   environment: Testing
+  tags:
+    - cisco-webex
   image: alpine:latest
   script:
     - apk add curl
