@@ -7,9 +7,11 @@ Alert:
   tags:
     - cisco-webex
   image: alpine:latest
+  variables:
+    CHILD_FOLDER: webex_alert
   script:
     - apk add curl
     - export WEBEX_WEBHOOK=$WEBEX_WEBHOOK_VAR
     - export WEBEX_MESSAGE=$WEBEX_MESSAGE_VAR
-    - chmod 755 ./webex_webhook.sh
-    - ./webex_webhook.sh
+    - chmod 755 $CHILD_FOLDER/webex_webhook.sh
+    - $CHILD_FOLDER/webex_webhook.sh
