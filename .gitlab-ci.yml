@@ -23,5 +23,5 @@ Alert:
   stage: Alert
   trigger:
     include:
-      file: webex_alert/child-pipeline.yml
+      file: "webex_alert/child-pipeline.yml"
     strategy: depend
