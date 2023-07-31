@@ -8,9 +8,9 @@ Test:
   image: hikiko999/pyats_python:python-3.10.12
   tags:
     - cisco-pyats
-  # variables:
-  #   DEST_IP_VAR: 5.10.15.20,10.20.30.40
-  # UPSTREAM PIPELINE VARIABLES
+  variables:
+    DEST_IP_VAR: 5.10.15.20
+    # DEFAULT
   script:
     - export DEST_IP=$DEST_IP_VAR
     - pyats run job job-runner.py --testbed-file ios_testbed.yml --html-logs
