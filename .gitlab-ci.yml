@@ -1,13 +1,16 @@
 stages:
   - Test
+  - Alert
 
 Test:
   stage: Test
+  environment: Testing
   image: hikiko999/pyats_python:python-3.10.12
   tags:
     - cisco-pyats
-  variables:
-    DEST_IP_VAR: 5.10.15.20,10.20.30.40
+  # variables:
+  #   DEST_IP_VAR: 5.10.15.20,10.20.30.40
+  # UPSTREAM PIPELINE VARIABLES
   script:
     - export DEST_IP=$DEST_IP_VAR
     - pyats run job job-runner.py --testbed-file ios_testbed.yml --html-logs
@@ -15,3 +18,10 @@ Test:
   artifacts:
     paths:
       - ./.pyats
+
+Alert:
+  stage: Alert
+  trigger:
+    include:
+      file: webex_alert/child-pipeline.yml
+    strategy: depend
