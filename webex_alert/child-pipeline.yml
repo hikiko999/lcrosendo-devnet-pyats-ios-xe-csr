@@ -5,7 +5,7 @@ Alert:
   stage: Alert
   environment: Testing
   tags:
-    - cisco-webex
+    - docker-webex
   image: alpine:latest
   variables:
     CHILD_FOLDER: webex_alert
