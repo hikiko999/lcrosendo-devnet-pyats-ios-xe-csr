@@ -8,7 +8,7 @@ Test:
   environment: Testing
   image: hikiko999/pyats_python:python-3.10.12
   tags:
-    - cisco-pyats
+    - docker-pyats
   variables:
     DEST_IP_VAR: 5.10.15.20
     # DEFAULT
