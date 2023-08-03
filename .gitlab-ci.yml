@@ -1,5 +1,6 @@
 stages:
   - Test
+  - Backup
   - Alert
 
 Test:
@@ -7,17 +8,32 @@ Test:
   environment: Testing
   image: hikiko999/pyats_python:python-3.10.12
   tags:
-    - docker-pyats
+    - cisco-pyats
   variables:
     DEST_IP_VAR: 5.10.15.20
     # DEFAULT
   script:
     - export DEST_IP=$DEST_IP_VAR
     - pyats run job job-runner.py --testbed-file ios_testbed.yml --html-logs
-    - cp ~/.pyats . -r
+    - mkdir outputs
+    - cp ~/.pyats outputs -r
   artifacts:
     paths:
-      - ./.pyats
+      - outputs/*
+
+Backup:
+  stage: Backup
+  environment: Backup
+  tags:
+    - shell-aws
+  script:
+    - export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
+    - export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
+    - export AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION
+    - export S3_BUCKET=$S3_BUCKET
+    - export CI_PROJECT_NAME=$CI_PROJECT_NAME
+    - aws configure set region $AWS_DEFAULT_REGION
+    - aws s3 sync outputs s3://$S3_BUCKET/$CI_PROJECT_NAME/
 
 Alert:
   stage: Alert
